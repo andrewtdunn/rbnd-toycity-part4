@@ -5,7 +5,10 @@ require 'csv'
 class Udacidata
 
   @@data_path = File.dirname(__FILE__) + "/../data/data.csv"
-  @@deleted_row = ""
+
+  def initialize
+    puts "init udacidata"
+  end
 
   # Your code goes here!
   def self.create(attributes = nil)
