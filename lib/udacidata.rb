@@ -106,8 +106,20 @@ class Udacidata
     attributes.each do |key,val|
       self.instance_variable_set("@#{key.to_s}", val.to_s)
     end
+
+    table = CSV.table(@@data_path)
+    table.each_with_index do |row, index|
+      if row[0] == @id
+        attributes.each do |key,val|
+          row[key] = val.to_s
+        end
+      end
+    end
+
+    File.open(@@data_path, 'w') do |f|
+      f.write(table.to_csv)
+    end
+
     self
   end
 end
-
-
