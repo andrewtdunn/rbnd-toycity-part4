@@ -95,6 +95,19 @@ class Udacidata
                     price:deleted_row[3]
                     )
   end
+
+  def self.where(attributes)
+    products = []
+    products << self.send("find_by_#{attributes.keys()[0].to_s}", attributes.values()[0].to_s)
+    products
+  end
+
+  def update(attributes)
+    attributes.each do |key,val|
+      self.instance_variable_set("@#{key.to_s}", val.to_s)
+    end
+    self
+  end
 end
 
 
