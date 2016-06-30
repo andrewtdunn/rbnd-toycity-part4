@@ -4,9 +4,13 @@ class Module
     # Hint: Remember attr_reader and class_eval
 
     attributes.each do |attribute|
+      # returns first
       self.send(:define_method, "find_by_#{attribute}") do |input|
-        products = self.all().select{ |product| product.instance_eval(attribute) == input}
-        return products[0]
+        self.all().select{ |product| product.instance_eval(attribute) == input }[0]
+      end
+      # returns all
+      self.send(:define_method, "find_all_by_#{attribute}") do |input|
+        self.all().select{ |product| product.instance_eval(attribute) == input }
       end
     end
   end

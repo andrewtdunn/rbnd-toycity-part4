@@ -70,6 +70,7 @@ class Udacidata
         return Product.new({id:row[0], brand:row[1], name:row[2], price:row[3]})
       end
     end
+    raise ProductNotFoundError, product_id.to_s + " is not a valid id"
   end
 
 
@@ -81,7 +82,9 @@ class Udacidata
         deleted_row_num = index
       end
     end
-
+    if deleted_row_num ==0
+      raise ProductNotFoundError, product_id.to_s + " is not a valid id"
+    end
     deleted_row = table.delete(deleted_row_num)
 
     File.open(@@data_path, 'w') do |f|
@@ -97,9 +100,7 @@ class Udacidata
   end
 
   def self.where(attributes)
-    products = []
-    products << self.send("find_by_#{attributes.keys()[0].to_s}", attributes.values()[0].to_s)
-    products
+    self.send("find_all_by_#{attributes.keys()[0].to_s}", attributes.values()[0].to_s)
   end
 
   def update(attributes)
